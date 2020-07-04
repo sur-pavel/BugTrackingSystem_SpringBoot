@@ -1,1 +1,0 @@
-package ru.surpavel.bugtrackingsystem.domain;

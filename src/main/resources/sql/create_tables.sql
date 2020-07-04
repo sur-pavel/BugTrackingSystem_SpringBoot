@@ -1,12 +1,12 @@
 
 CREATE TABLE projects(
-    id INTEGER PRIMARY KEY,
-    title VARCHAR(50),
+    id IDENTITY,
+    title VARCHAR(50) NOT NULL UNIQUE,
     file VARCHAR(100)
 );
 
 CREATE TABLE users(
-    id INTEGER PRIMARY KEY,
+    id IDENTITY,
     firstName VARCHAR(50),
     lastName VARCHAR(50),
     project_id INTEGER NOT NULL UNIQUE,
@@ -14,7 +14,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE tasks (
-    id INTEGER PRIMARY KEY,     
+    id IDENTITY,     
     theme VARCHAR(50) NOT NULL UNIQUE,
     taskType VARCHAR(50),
     priority INTEGER,
