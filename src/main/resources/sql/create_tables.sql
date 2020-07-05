@@ -20,7 +20,9 @@ CREATE TABLE tasks (
     priority INTEGER,
     description VARCHAR(200),
     user_id INTEGER NOT NULL UNIQUE,
-    FOREIGN KEY (user_id) REFERENCES users(id)    
+    project_id INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (project_id) REFERENCES projects(id)
 );
 
 
