@@ -1,8 +1,7 @@
 
 CREATE TABLE projects(
     id IDENTITY,
-    title VARCHAR(50) NOT NULL UNIQUE,
-    file VARCHAR(100)
+    title VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE users(
