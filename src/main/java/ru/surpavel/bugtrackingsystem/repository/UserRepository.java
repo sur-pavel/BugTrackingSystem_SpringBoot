@@ -1,12 +1,12 @@
 package ru.surpavel.bugtrackingsystem.repository;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ru.surpavel.bugtrackingsystem.entity.*;
+import ru.surpavel.bugtrackingsystem.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<Project> findByProjectId(Long projectid);
+    Page<User> findByProjectId(Long userId, Pageable pageable);
 }
