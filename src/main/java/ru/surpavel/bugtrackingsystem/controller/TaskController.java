@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ru.surpavel.bugtrackingsystem.entity.Task;
-import ru.surpavel.bugtrackingsystem.exception.ResourceNotFoundException;
 import ru.surpavel.bugtrackingsystem.repository.*;
 
 @RestController

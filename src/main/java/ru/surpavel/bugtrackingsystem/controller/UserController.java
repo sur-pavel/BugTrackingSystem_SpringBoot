@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import ru.surpavel.bugtrackingsystem.entity.Task;
 import ru.surpavel.bugtrackingsystem.entity.User;
-import ru.surpavel.bugtrackingsystem.exception.ResourceNotFoundException;
+import ru.surpavel.bugtrackingsystem.repository.ResourceNotFoundException;
 import ru.surpavel.bugtrackingsystem.repository.TaskRepository;
 import ru.surpavel.bugtrackingsystem.repository.UserRepository;
 
