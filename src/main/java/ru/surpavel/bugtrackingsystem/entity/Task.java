@@ -44,6 +44,17 @@ public class Task {
     @JsonIgnore
     private Project project;
 
+    public Task(@NotNull @Size(max = 50) String theme, @Size(max = 50) String taskType, int priority,
+            @Size(max = 200) String description, User user, Project project) {
+        super();
+        this.theme = theme;
+        this.taskType = taskType;
+        this.priority = priority;
+        this.description = description;
+        this.user = user;
+        this.project = project;
+    }
+
     public Long getId() {
         return id;
     }
@@ -156,6 +167,12 @@ public class Task {
         } else if (!user.equals(other.user))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Task [id=" + id + ", theme=" + theme + ", taskType=" + taskType + ", priority=" + priority
+                + ", description=" + description + ", user=" + user + ", project=" + project + "]";
     }
 
 }

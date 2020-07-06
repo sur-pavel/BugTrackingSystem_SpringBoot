@@ -16,6 +16,11 @@ public class Project {
     @Column(unique = true)
     private String title;
 
+    public Project(@NotNull @Size(max = 50) String title) {
+        super();
+        this.title = title;
+    }
+
     public Long getId() {
         return id;
     }
@@ -61,6 +66,11 @@ public class Project {
         } else if (!title.equals(other.title))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Project [id=" + id + ", title=" + title + "]";
     }
 
 }

@@ -32,6 +32,13 @@ public class User {
     @JsonIgnore
     private Project project;
 
+    public User(@NotNull @Size(max = 50) String firstName, @NotNull @Size(max = 50) String lastName, Project project) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.project = project;
+    }
+
     public Long getId() {
         return id;
     }
@@ -105,6 +112,11 @@ public class User {
         } else if (!project.equals(other.project))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", project=" + project + "]";
     }
 
 }
