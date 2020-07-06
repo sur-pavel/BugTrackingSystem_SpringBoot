@@ -14,8 +14,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import ru.surpavel.bugtrackingsystem.controller.ProjectController;
 import ru.surpavel.bugtrackingsystem.entity.Project;
@@ -24,8 +27,8 @@ import ru.surpavel.bugtrackingsystem.repository.TaskRepository;
 import ru.surpavel.bugtrackingsystem.repository.UserRepository;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { ProjectRepository.class, UserRepository.class, TaskRepository.class,
-        ProjectController.class, }, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = { BugTrackingSystemSpringBootApplication.class, ProjectRepository.class, UserRepository.class,
+        TaskRepository.class, ProjectController.class }, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class ProjectRestControllerIntegrationTest {
 
@@ -68,11 +71,11 @@ public class ProjectRestControllerIntegrationTest {
                 .andExpect(content().string(containsString("first")));
     }
 
-//    @Test
-//    public void createProjectAPI() throws Exception {
-//        Project project = new Project("first");
-//        mockMvc.perform(MockMvcRequestBuilders.post("/projects").content(asJsonString(new Project("first")))
-//                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.jsonPath("$.projectId").exists());
-//    }
+    @Test
+    public void createProjectAPI() throws Exception {
+        Project project = new Project("first");
+        mockMvc.perform(MockMvcRequestBuilders.post("/projects").content(asJsonString(new Project("first")))
+                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.jsonPath("$.title").exists());
+    }
 }
