@@ -39,8 +39,13 @@ public class ProjectController {
     }
 
     @GetMapping("/projects/{projectId}")
-    public Optional<Project> getProject(@PathVariable Long projectId) {
+    public Optional<Project> getProjectByid(@PathVariable Long projectId) {
         return projectRepository.findById(projectId);
+    }
+    
+    @GetMapping("/projects/{projectName}")
+    public Optional<Project> getProjectByTitle(@PathVariable String projectTitle) {
+        return projectRepository.findByTitlePageable(projectTitle);
     }
 
     @GetMapping("/projects/{projectId}/users")
