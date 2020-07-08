@@ -3,14 +3,13 @@ package ru.surpavel.bugtrackingsystem;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import ru.surpavel.bugtrackingsystem.controller.ProjectController;
 import ru.surpavel.bugtrackingsystem.entity.Project;
@@ -47,17 +49,8 @@ public class ProjectRestControllerIntegrationTest {
     @Autowired
     private ProjectController projectController;
 
-    @Before
-    public void createProjectInRepo() {
-        Project project = new Project("first");
-        projectRepository.save(project);
-
-        Mockito.when(projectRepository.findByTitle(project.getTitle())).thenReturn(project);
-    }
-
     @Test
     public void contexLoads() throws Exception {
-
         assertThat(projectRepository).isNotNull();
         assertThat(userRepository).isNotNull();
         assertThat(taskRepository).isNotNull();
@@ -65,17 +58,30 @@ public class ProjectRestControllerIntegrationTest {
     }
 
     @Test
-    public void getAllProjectsAPI() throws Exception {
-
+    public void getAllProjects() throws Exception {
+        String title = "first";
+        Project project = new Project(title);
+        projectRepository.save(project);
         this.mockMvc.perform(get("/projects")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("first")));
+                .andExpect(content().string(containsString(title)));
     }
 
     @Test
-    public void createProjectAPI() throws Exception {
-        Project project = new Project("first");
-        mockMvc.perform(MockMvcRequestBuilders.post("/projects").content(asJsonString(new Project("first")))
+    public void getProjectById() throws Exception {
+        String title = "second";
+        Project project = new Project(title);
+        projectRepository.save(project);
+        Long id = projectRepository.findByTitle(title).get().getId();
+        this.mockMvc.perform(get("/projects/" + id)).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString(title)));
+    }
+    @Test
+    public void createProject() throws Exception {
+        
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(new Project("second"));
+        mockMvc.perform(post("/projects").content(json)
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.jsonPath("$.title").exists());
+                .andExpect(status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("second").exists());
     }
 }
