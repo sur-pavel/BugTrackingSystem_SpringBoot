@@ -35,7 +35,7 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public Task createTask(@Valid @RequestBody Task task) {
+    public Task createTask(@Valid Task task) {
         return taskRepository.save(task);
     }
 
@@ -58,10 +58,7 @@ public class TaskController {
         }
 
         return taskRepository.findById(taskId).map(task -> {
-            task.setTheme(taskRequest.getTheme());
-//            
-//            
-//            
+            task.setTheme(taskRequest.getTheme());         
             return taskRepository.save(task);
         }).orElseThrow(() -> new ResourceNotFoundException("UserId " + userId + "not found"));
     }

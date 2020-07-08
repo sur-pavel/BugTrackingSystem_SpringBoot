@@ -8,7 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import ru.surpavel.bugtrackingsystem.entity.Project;
 import ru.surpavel.bugtrackingsystem.entity.Task;
@@ -34,18 +40,13 @@ public class ProjectController {
     }
 
     @PostMapping("/projects")
-    public Project createProject(@Valid @RequestBody Project project) {
+    public Project createProject(@Valid Project project) {
         return projectRepository.save(project);
     }
 
     @GetMapping("/projects/{projectId}")
-    public Optional<Project> getProjectByid(@PathVariable Long projectId) {
+    public Optional<Project> getProject(@PathVariable Long projectId) {
         return projectRepository.findById(projectId);
-    }
-    
-    @GetMapping("/projects/{projectName}")
-    public Optional<Project> getProjectByTitle(@PathVariable String projectTitle) {
-        return projectRepository.findByTitlePageable(projectTitle);
     }
 
     @GetMapping("/projects/{projectId}/users")
