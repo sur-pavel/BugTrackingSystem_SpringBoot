@@ -16,10 +16,16 @@ public class Project {
     @Column(unique = true)
     private String title;
 
+    public Project() {
+        super();
+    }
+
     public Project(@NotNull @Size(max = 50) String title) {
         super();
         this.title = title;
     }
+
+
 
     public Long getId() {
         return id;

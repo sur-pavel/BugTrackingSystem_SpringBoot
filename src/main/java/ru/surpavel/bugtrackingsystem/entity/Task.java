@@ -44,6 +44,10 @@ public class Task {
     @JsonIgnore
     private Project project;
 
+    public Task() {
+        super();
+    }
+
     public Task(@NotNull @Size(max = 50) String theme, @Size(max = 50) String taskType, int priority,
             @Size(max = 200) String description, User user, Project project) {
         super();

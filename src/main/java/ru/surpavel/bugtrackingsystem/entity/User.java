@@ -32,6 +32,10 @@ public class User {
     @JsonIgnore
     private Project project;
 
+    public User() {
+        super();
+    }
+
     public User(@NotNull @Size(max = 50) String firstName, @NotNull @Size(max = 50) String lastName, Project project) {
         super();
         this.firstName = firstName;
