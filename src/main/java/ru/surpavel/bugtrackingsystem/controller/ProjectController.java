@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ru.surpavel.bugtrackingsystem.entity.Project;
@@ -29,40 +28,40 @@ public class ProjectController {
 
     @Autowired
     private ProjectRepository projectRepository;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private TaskRepository taskRepository;
-
-    @GetMapping("/projects")
-    public Page<Project> getAllProjects(Pageable pageable) {
-        return projectRepository.findAll(pageable);
-    }
 
     @PostMapping("/projects")
     public Project createProject(@Valid Project project) {
         return projectRepository.save(project);
     }
 
+    @GetMapping("/projects")
+    public Page<Project> findAllProjects(Pageable pageable) {
+        return projectRepository.findAll(pageable);
+    }
+
     @GetMapping("/projects/{projectId}")
-    public Optional<Project> getProject(@PathVariable Long projectId) {
+    public Optional<Project> findProjectById(@PathVariable Long projectId) {
         return projectRepository.findById(projectId);
     }
 
     @GetMapping("/projects/{projectId}/users")
-    public Page<User> getAllProjectUsers(@PathVariable (value = "projectId") Long projectId,
-                                                Pageable pageable) {
+    public Page<User> findAllProjectUsers(@PathVariable(value = "projectId") Long projectId, Pageable pageable) {
         return userRepository.findByProjectId(projectId, pageable);
     }
-    
+
     @GetMapping("/projects/{projectId}/tasks")
-    public Page<Task> getAllProjectTasks(@PathVariable (value = "projectId") Long projectId,
-                                                Pageable pageable) {
+    public Page<Task> findAllProjectTasks(@PathVariable(value = "projectId") Long projectId, Pageable pageable) {
         return taskRepository.findByProjectId(projectId, pageable);
     }
-    
+
     @PutMapping("/projects/{projectId}")
-    public Project updateProject(@PathVariable Long projectId, @Valid @RequestBody Project projectRequest) {
+    public Project updateProject(@PathVariable Long projectId, @Valid Project projectRequest) {
         return projectRepository.findById(projectId).map(project -> {
             project.setTitle(projectRequest.getTitle());
             return projectRepository.save(project);
@@ -76,6 +75,4 @@ public class ProjectController {
             return ResponseEntity.ok().build();
         }).orElseThrow(() -> new ResourceNotFoundException("ProjectId " + projectId + " not found"));
     }
-
-   
 }
