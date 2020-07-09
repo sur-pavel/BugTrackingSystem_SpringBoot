@@ -33,7 +33,7 @@ public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
 
-    @PostMapping("/projects/{projectId}/user/{userId}/tasks")
+    @PostMapping("/projects/{projectId}/users/{userId}/tasks")
     public Task createTask(@PathVariable(value = "projectId") Long projectId,
             @PathVariable(value = "userId") Long userId, @Valid Task task) {
         if (!projectRepository.existsById(projectId)) {
@@ -57,7 +57,7 @@ public class TaskController {
         return taskRepository.findById(taskId);
     }
 
-    @PutMapping("/projects/{projectId}/user/{userId}/task/{taskId}")
+    @PutMapping("/projects/{projectId}/users/{userId}/tasks/{taskId}")
     public Task updateTask(@PathVariable(value = "projectId") Long projectId,
             @PathVariable(value = "userId") Long userId, @PathVariable(value = "taskId") Long taskId,
             @Valid Task taskRequest) {
