@@ -18,8 +18,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import ru.surpavel.bugtrackingsystem.controller.ProjectController;
 import ru.surpavel.bugtrackingsystem.entity.Project;
@@ -28,8 +28,9 @@ import ru.surpavel.bugtrackingsystem.repository.TaskRepository;
 import ru.surpavel.bugtrackingsystem.repository.UserRepository;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { BugTrackingSystemSpringBootApplication.class, ProjectRepository.class, UserRepository.class,
-        TaskRepository.class, ProjectController.class }, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = { BugTrackingSystemSpringBootApplication.class, 
+        ProjectRepository.class, UserRepository.class,
+        TaskRepository.class, ProjectController.class })
 @AutoConfigureMockMvc
 public class ProjectRestControllerIntegrationTest {
 
@@ -74,13 +75,14 @@ public class ProjectRestControllerIntegrationTest {
         this.mockMvc.perform(get("/projects/" + id)).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString(title)));
     }
+
     @Test
     public void createProject() throws Exception {
         String title = "third";
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(new Project(title));
-        mockMvc.perform(post("/projects").content(json)
-                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andExpect(MockMvcResultMatchers.jsonPath(title).exists());
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(new Project(title));
+        mockMvc.perform(post("/projects").content(json).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath(title).exists());
     }
 }
