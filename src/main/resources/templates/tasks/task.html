@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>View Task</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+    <body>
+        <h1>View Task</h1>
+        <a th:href="@{/tasks}">Back to Task List</a>
+        <br/><br/>
+        <div th:if="${task}">
+            <table border="0">
+                <tr>
+                    <td>ID</td>
+                    <td>:</td>
+                    <td th:utext="${task.id}">...</td>          
+                </tr>
+                <tr>
+                    <td>Theme</td>
+                    <td>:</td>
+                    <td th:utext="${task.theme}">...</td>             
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>:</td>
+                    <td th:utext="${task.taskType}">...</td>             
+                </tr>
+                <tr>
+                    <td>Priority</td>
+                    <td>:</td>
+                    <td th:utext="${task.priority}">...</td>             
+                </tr>   
+                <tr>
+                    <td>Description</td>
+                    <td>:</td>
+                    <td th:utext="${task.description}">...</td>             
+                </tr>               
+                <tr>
+                    <td>User ID</td>
+                    <td>:</td>
+                    <td th:utext="${task.user.firstName} ${task.user.lastName}">...</td>             
+                </tr> 
+                <tr>
+                    <td>Project ID</td>
+                    <td>:</td>
+                    <td th:utext="${task.project.title}">...</td>             
+                </tr>          
+            </table>
+            <br/><br/>
+            <div th:if="not ${allowDelete}">
+                <a th:href="@{/tasks/{taskId}/edit(taskId=${task.id})}">Edit</a> |
+                <a th:href="@{/tasks/{taskId}/delete(taskId=${task.id})}">Delete</a>
+            </div>
+            <form th:if="${allowDelete}" th:action="@{/tasks/{taskId}/delete(taskId=${task.id})}" method="POST">
+                Delete this task? <input type="submit" th:value="Yes" />
+            </form>
+        </div>
+        <div th:if="${errorMessage}" th:utext="${errorMessage}" class="error" />        
+    </body>
+</html>

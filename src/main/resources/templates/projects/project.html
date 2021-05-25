@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>View Project</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+    <body>
+        <h1>View Project</h1>
+        <a th:href="@{/projects}">Back to Project List</a>
+        <br/><br/>
+        <div th:if="${project}">
+            <table border="0">
+                <tr>
+                    <td>ID</td>
+                    <td>:</td>
+                    <td th:utext="${project.id}">...</td>          
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td>:</td>
+                    <td th:utext="${project.title}">...</td>             
+                </tr>               
+            </table>
+            <br/><br/>
+            <div th:if="not ${allowDelete}">
+                <a th:href="@{/projects/{projectId}/edit(projectId=${project.id})}">Edit</a> |
+                <a th:href="@{/projects/{projectId}/delete(projectId=${project.id})}">Delete</a>
+            </div>
+            <form th:if="${allowDelete}" th:action="@{/projects/{projectId}/delete(projectId=${project.id})}" method="POST">
+                Delete this project? <input type="submit" th:value="Yes" />
+            </form>
+        </div>
+        <div th:if="${errorMessage}" th:utext="${errorMessage}" class="error" />        
+    </body>
+</html>

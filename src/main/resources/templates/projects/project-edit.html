@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title th:text="${add} ? 'Create a Project' : 'Edit a Project'" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+    <body>
+        <h1 th:text="${add} ? 'Create a Project:' : 'Edit a Project:'" />
+        <a th:href="@{/projects}">Back to Project List</a>
+        <br/><br/>
+        <form th:action="${add} ? @{/projects/add} : @{/projects/{projectId}/edit(projectId=${project.id})}"
+              th:object="${project}" method="POST">
+            <table border="0">
+                <tr th:if="${project.id}">
+                    <td>ID</td>
+                    <td>:</td>
+                    <td th:utext="${project.id}">...</td>             
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td>:</td>
+                    <td><input type="text" th:field="*{title}" /></td>              
+                </tr>
+            </table>
+            <input type="submit" th:value="${add} ? 'Create' : 'Update'" />
+        </form>
+
+        <br/>
+        <!-- Check if errorMessage is not null and not empty -->       
+        <div th:if="${errorMessage}" th:utext="${errorMessage}" class="error" />       
+    </body>
+</html>

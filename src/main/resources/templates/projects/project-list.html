@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Project List</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+    <body>
+        <h1>Project List</h1>
+        <div>
+            <nobr>
+                <a th:href="@{/projects/add}">Add Project</a> |
+                <a th:href="@{/}">Back to Index</a>
+            </nobr>
+        </div>
+        <br/><br/>
+        <div>
+            <table border="1">
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Edit</th>
+                </tr>
+                <tr th:each ="project : ${projects}">
+                    <td><a th:href="@{/projects/{projectId}(projectId=${project.id})}" th:utext="${project.id}">...</a></td>
+                    <td><a th:href="@{/projects/{projectId}(projectId=${project.id})}" th:utext="${project.title}">...</a></td>
+                    <td><a th:href="@{/projects/{projectId}/edit(projectId=${project.id})}">Edit</a></td>
+                </tr>
+            </table>          
+        </div>
+        <br/><br/>
+        <div>
+            <nobr>
+                <span th:if="${hasPrev}"><a th:href="@{/projects?page={prev}(prev=${prev})}">Prev</a>&nbsp;&nbsp;&nbsp;</span> 
+                <span th:if="${hasNext}"><a th:href="@{/projects?page={next}(next=${next})}">Next</a></span>
+            </nobr>
+        </div>
+    </body>
+</html>

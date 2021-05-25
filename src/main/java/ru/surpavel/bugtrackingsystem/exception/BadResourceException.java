@@ -1,26 +1,24 @@
-package ru.surpavel.bugtrackingsystem.repository;
-
-
+package ru.surpavel.bugtrackingsystem.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
+public class BadResourceException extends RuntimeException {
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
 
-    public ResourceNotFoundException() {
+    public BadResourceException() {
         super();
     }
 
-    public ResourceNotFoundException(String message) {
+    public BadResourceException(String message) {
         super(message);
     }
 
-    public ResourceNotFoundException(String message, Throwable cause) {
+    public BadResourceException(String message, Throwable cause) {
         super(message, cause);
     }
 }
